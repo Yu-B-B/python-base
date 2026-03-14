@@ -29,3 +29,19 @@ def fun3(*args):
 
 print(fun3(1, 2, 3))
 print(fun3(1, 2, 3)())
+
+# 3、map函数，接受一个函数和多个可迭代对象，再将对象中每一个元素处理后返回迭代器
+# 普通函数方式：
+numbers = [1, 2, 4, 5, 6, 7]
+
+
+def fun4(a):
+    return a * a
+
+
+print(f'普通函数调用方法后：{map(fun4, numbers)}')
+print(f'普通函数调用方法,转为数据后：{list(map(fun4, numbers))}')
+
+# map高阶
+map_result = map(lambda a: a ** 2, numbers)
+print(f'python内置函数调用后{list(map_result)}')
