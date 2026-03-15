@@ -71,9 +71,10 @@ str_word_map = map(lambda word: {word: 1}, str_word_split)
 # 3、遍历map，map不是字典类型本身，没有提供items()方法，直接遍历即可
 word_count_map = {}
 
+
 def reduce_map_count(params):
     for map_dict in params:
-        for key,value in map_dict.items():
+        for key, value in map_dict.items():
             keys = word_count_map.keys()
             if key in keys:
                 word_count_map[key] += value
@@ -83,3 +84,10 @@ def reduce_map_count(params):
 
 
 print(reduce_map_count(str_word_map))
+
+# filter函数，内置过滤序列，与map类似，接收一个函数和一个序列，返回boolean决定元素是保留还是丢弃
+# 过滤数组中奇数/偶数
+num_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+result_list = list(filter(lambda item: item % 2 == 0, num_list))
+print(f'过滤奇数后得到的结果{result_list}')
+
