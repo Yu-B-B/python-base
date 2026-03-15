@@ -91,3 +91,16 @@ num_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 result_list = list(filter(lambda item: item % 2 == 0, num_list))
 print(f'过滤奇数后得到的结果{result_list}')
 
+# sorted函数，与python内置的sort类似
+map_sort = [
+    {'name': 'wangwu', 'age': 34},
+    {'name': 'asdf', 'age': 541},
+    {'name': 'qgwet', 'age': 613},
+    {'name': '1tfzvc', 'age': 63}
+]
+
+print(sorted(map_sort, key=lambda each: each['age']))
+print(sorted(map_sort, key=lambda each: each['name']))
+
+str_sort = ['asdf', 'ASD', 'qewr', 'asd']
+print(sorted(str_sort))
