@@ -12,11 +12,12 @@
 # ab	以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。
 
 # 打开文件流
-file_stream = open('IO_DEMO_FILE.txt', mode = 'r', encoding='utf-8')
+file_stream = open('IO_DEMO_FILE.txt', mode='r', encoding='utf-8')
 
 # 读取文件，
 print(f'读取整个文件：{file_stream.read()}', end='\n')
 
+# 移动指针位置，0开头、1当前位置、2文件结尾位置
 file_stream.seek(0)
 
 # 读取指定长度，若在上个读完的位置后读取指定长度，需要重置文件指针
@@ -29,3 +30,15 @@ print(f'读取指定行数内容：{file_stream.readline()}', end='\n')
 print(f'读取第二行 内容：{file_stream.readline()}', end='\n')
 
 file_stream.seek(0)
+
+# 写操作
+write_file_stream = open('IO_DEMO_FILE.txt', mode='w', encoding='utf-8')
+
+write_file_stream.write('新写入的一行内容')
+
+for item in range(100):
+    print(f'当前指针位置在{write_file_stream.tell()}', end='\n')
+    write_file_stream.seek(0, 2)
+    write_file_stream.write(str(item))
+
+write_file_stream.close()
