@@ -1,5 +1,7 @@
 # 把函数作为参数传递
 # 函数的参数是函数
+from functools import reduce
+
 
 def fun1(a=0):
     return abs(a)
@@ -45,3 +47,39 @@ print(f'普通函数调用方法,转为数据后：{list(map(fun4, numbers))}')
 # map高阶
 map_result = map(lambda a: a ** 2, numbers)
 print(f'python内置函数调用后{list(map_result)}')
+
+
+# reduce：python中内置函数，将对象中内容反复调指定函数
+def fun5(a, b):
+    return a + b
+
+
+reduce_result = reduce(fun5, numbers)
+
+print(reduce_result)
+
+# 类似方式·
+reduce_lambda_result = reduce(lambda x, y: x + y, numbers)
+print(reduce_lambda_result)
+
+# reduce案例: 统计字符串中每个词出现的次数
+str_word = "The library changes include significantly improved capabilities for introspection in asyncio, support for Zstandard via a new compression.zstd module, syntax highlighting in the REPL, as well as the usual deprecations and removals, and improvements in user-friendliness and correctness"
+# 1、拆分句子为数组
+str_word_split = str_word.split()
+# 2、将数组转为map，给每个单词赋初始值。一个map中包含键值对字典
+str_word_map = map(lambda word: {word: 1}, str_word_split)
+# 3、遍历map，map不是字典类型本身，没有提供items()方法，直接遍历即可
+word_count_map = {}
+
+def reduce_map_count(params):
+    for map_dict in params:
+        for key,value in map_dict.items():
+            keys = word_count_map.keys()
+            if key in keys:
+                word_count_map[key] += value
+            else:
+                word_count_map[key] = value
+    return word_count_map
+
+
+print(reduce_map_count(str_word_map))
