@@ -28,5 +28,3 @@ print(next(g))
 print(g.send(5))
 print(g.send(12))
 
-
-#
