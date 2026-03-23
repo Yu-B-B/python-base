@@ -40,4 +40,4 @@ HOW：
 
 ## Models
 
-模型初始化方式：model class
+模型初始化方式：model class、init chat models
