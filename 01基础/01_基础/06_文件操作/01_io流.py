@@ -42,3 +42,9 @@ for item in range(100):
     write_file_stream.write(str(item))
 
 write_file_stream.close()
+
+
+# 使用 with 完成文件内容写入，使用write后不用手动关闭文件流
+with open('withFile.txt', mode='w+', encoding='utf-8') as stream:
+    for i in range(10):
+        stream.write('hello\n')
