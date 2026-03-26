@@ -1,6 +1,9 @@
 class Person():
     name = '人'
 
+    def __init__(self, type):
+        self.type = type
+
     def sport(self):
         print('跳一下')
 
@@ -8,12 +11,20 @@ class Person():
 class Car():
     name = '车'
 
+    def __init__(self, type):
+        self.type = type
+
     def sport(self):
         print("车开起来了")
 
 
 # 单继承时，该子类拥有父类的所有属性。多继承时，若属性重复，先拥有第一个继承对象中内容
-class JapanPerson(Person, Car):
+class JapanPerson(Car, Person):
+    def __init__(self, type, age):
+        # 父类存在相同的功能，可采用父类中函数完成期望动作
+        super().__init__(type)
+        self.age = age
+
     def say(self):
         print('小日本说八嘎话')
 
@@ -21,10 +32,9 @@ class JapanPerson(Person, Car):
         print('小八嘎的车动起来了')
 
 
-jp = JapanPerson()
+jp = JapanPerson('矮子',12)
 # 当子类中不存在与父类相同的方法时，调用父类中方法。当子类中存在与父类相同方法时，为重写
 jp.sport()
-
 
 print(jp.name)
 
