@@ -31,3 +31,11 @@ Loss
 
 为什么说Relu是目前解决梯度消失最好的方法。
 
+## NLP
+
+### Encoder & Decoder
+
+### Encoder with attention
+
+RNN在处理长句子时，容易存在内容丢失，所以通过____来保证
+
