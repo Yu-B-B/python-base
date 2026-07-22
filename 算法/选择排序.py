@@ -1,5 +1,6 @@
 # 选择排序，遍历数组，找到最小值，与第0号下标上数据交换
 # 然后看 1 ~ N -1 位置上，找到最小值，与第一号位置上数据做交换
+
 def select_sort(arrs):
     if arrs == [] or len(arrs) < 2:
         return
