@@ -107,6 +107,7 @@ final_chain = RunnablePassthrough.assign(
     x['messages_summarized'].get('summary') else '无摘要'
 ) | chain_with_message_history
 
+
 # result = final_chain.invoke(
 #     {
 #         'input': '你好 我是夏帆','config':{"configurable":{"session_id":"user_id_123"}}
@@ -122,8 +123,43 @@ final_chain = RunnablePassthrough.assign(
 # )
 # print(result1)
 
-with gr.Blocks(title='多模态聊天机器人') as block:
-    chatbot = gr.Chatbot( height=500, label='聊天机器人')
+# 按钮确认提交消息，输入包含历史聊天内容以及当前输入框中内容
+def click_submit(chat_history, user_message):
+    # 向聊天记录中添加消息
+    if user_message:
+        chat_history.append({'role': 'user', 'content': user_message})
+    return chat_history, ''
+
+
+def chain_invoke(chat_history):
+    last_message_input = chat_history[-1]
+    aimessage_result = final_chain.invoke(
+        {
+            'input': last_message_input['content'], 'config': {"configurable": {"session_id": "user_id_123"}}
+        }, config={"configurable": {'session_id': 'user_id_123'}}
+    )
+    chat_history.append({'role': 'assistant', 'content': aimessage_result.content})
+    return chat_history
+
+
+# 读取 音频文件
+def audio_input_read(audio_msg):
+    print(chain_with_message_history)
+    # if audio_msg:
+    #     client =  ZhipuAI(api_key='')
+    #     with open(audio_msg, 'rb') as f:
+    #         resp =  client.audio.transcriptions.create(
+    #             model =  'glm-asr',
+    #             file =  audio_msg,
+    #             stream = False
+    #         )
+    #         text = resp.model_extra['text']
+    #         return text
+    # return ''
+
+
+with (gr.Blocks(title='多模态聊天机器人') as block):
+    chatbot = gr.Chatbot(height=500, label='聊天机器人')
 
     # 行组件
     with gr.Row():
@@ -134,7 +170,20 @@ with gr.Blocks(title='多模态聊天机器人') as block:
             submit_btn = gr.Button('发送', variant='primary')
 
         with gr.Column(scale=1):
-            audio_input = gr.Audio(sources=['microphone'],label='请录入音频',type = 'filepath',format='wav')
+            audio_input = gr.Audio(sources=['microphone'], label='请录入音频', type='filepath', format='wav')
+
+    # 提交事件，将当前信息做保存
+    user_submit_content = user_input.submit(click_submit, [chatbot, user_input], [chatbot, user_input])
+
+    # 调用大模型
+    user_submit_content.then(chain_invoke, chatbot, chatbot)
+
+    # 语音录制
+    audio_input.change(audio_input_read, [audio_input], [user_input])
+
+    # 提交按钮点击事件
+    submit_btn.click(click_submit, [chatbot, user_input], [chatbot, user_input]
+                     ).then(chain_invoke, chatbot, chatbot)
     pass
 
 if __name__ == '__main__':
